@@ -44,7 +44,7 @@ while running:
         player_pos.x = screen.get_width() - boid_length
 
 # -------------------------------------------------------------------
-# Draw tab
+# Draw tab testit
     screen.fill("white")
     pygame.draw.polygon(
         screen,
