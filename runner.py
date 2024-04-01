@@ -12,8 +12,9 @@ dt = 0
 # variables
 half_width = screen.get_width() / 2
 half_height = screen.get_height() / 2
-boid_length = 15
-boid_height = 5
+
+# objects
+boid = boid.boid(half_width, half_height, 0, 0)
 
 player_pos = pygame.Vector2(half_width, half_height)
 # Main loop
@@ -26,7 +27,7 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_pos.y -= 300 * dt
+        boid.changepos(boid.posx, boid.posy - 300 * dt)
     if keys[pygame.K_s]:
         player_pos.y += 300 * dt
     if keys[pygame.K_a]:
@@ -34,25 +35,19 @@ while running:
     if keys[pygame.K_d]:
         player_pos.x += 300 * dt
 
-    if player_pos.y - boid_height <= 0:
-        player_pos.y = 0 + boid_height
-    if player_pos.y + boid_height >= screen.get_height():
-        player_pos.y = screen.get_height() - boid_height
+    if player_pos.y - boid.height <= 0:
+        player_pos.y = 0 + boid.height
+    if player_pos.y + boid.height >= screen.get_height():
+        player_pos.y = screen.get_height() - boid.height
     if player_pos.x <= 0:
         player_pos.x = 0
-    if player_pos.x + boid_length >= screen.get_width():
-        player_pos.x = screen.get_width() - boid_length
+    if player_pos.x + boid.length >= screen.get_width():
+        player_pos.x = screen.get_width() - boid.length
 
 # -------------------------------------------------------------------
-# Draw tab testit
+# Draw tab
     screen.fill("white")
-    pygame.draw.polygon(
-        screen,
-    (0,0,255),
-    [player_pos,
-                (player_pos.x+boid_length, player_pos.y+boid_height),
-                (player_pos.x+boid_length, player_pos.y-boid_height)]
-    )
+
 # -------------------------------------------------------------------
 # Update
     pygame.display.flip()
@@ -60,3 +55,10 @@ while running:
     dt = clock.tick(60) / 1000
 
 pygame.quit()
+
+def createboid(screen):
+    boid_pos = pygame.Vector2(boid.posx, boid.posy)
+    pygame.draw.polygon(screen,(0, 0, 255), [boid_pos,
+            (boid_pos.x + boid.length, boid_pos.y + boid.height),
+            (boid_pos.x + boid.length, boid_pos.y - boid.height)]
+    )
